@@ -1,10 +1,10 @@
-package com.example.fastcampusmysql;
+package com.example.mysql;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FastcampusMysqlApplicationTests {
+class MysqlApplicationTests {
 
     @Test
     void contextLoads() {
