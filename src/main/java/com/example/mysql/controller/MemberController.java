@@ -1,6 +1,7 @@
 package com.example.mysql.controller;
 
 
+import com.example.mysql.domain.member.dto.MemberDto;
 import com.example.mysql.domain.member.dto.RegisterMemberCommend;
 import com.example.mysql.domain.member.entity.Member;
 import com.example.mysql.domain.member.repository.MemberRepository;
@@ -26,13 +27,14 @@ public class MemberController {
 
 
     @PostMapping("/members")
-    public Member register(@RequestBody RegisterMemberCommend commend){
-       return memberWriteService.create(commend);
+    public MemberDto register(@RequestBody RegisterMemberCommend commend){
+       Member member = memberWriteService.register(commend);
+       return memberReadService.toDto(member);
     }
 
 
     @GetMapping("/members/{id}")
-    public Member getMember(@PathVariable Long id) {
+    public MemberDto getMember(@PathVariable Long id) {
         return memberReadService.getMember(id);
     }
 }

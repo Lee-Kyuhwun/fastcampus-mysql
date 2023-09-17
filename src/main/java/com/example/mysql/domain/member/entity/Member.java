@@ -1,5 +1,7 @@
 package com.example.mysql.domain.member.entity;
 
+import com.example.mysql.domain.member.dto.RegisterMemberCommend;
+import io.swagger.v3.core.util.OpenAPISchema2JsonSchema;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.util.Assert;
@@ -35,8 +37,19 @@ public class Member {
     final  private Long NAME_MAX_LENGTH = 10L;
 
 
-    void validNickname(String nickname){
+    private void validNickname(String nickname){
         Assert.isTrue(nickname.length() <= NAME_MAX_LENGTH, "최대 길이를 초과했습니다.");
     }
+
+   // 엔티티의 데이터들은 객체 안에서만 관리되어야한다. 나중에 변경할때 쉬어진다.
+
+
+    public void changeNickname(String nickname){
+        Objects.requireNonNull(nickname);
+        validNickname(nickname);
+        this.nickname = nickname;
+    } // 이렇게 객체안에 넣으면 단위테스트에 유리해진다. 객체안에서만 관리되기 때문에
+
+
 
 }
