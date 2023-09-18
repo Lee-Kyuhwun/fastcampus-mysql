@@ -1,2 +1,14 @@
-package com.example.mysql.domain.follow.service;public class FollowReadService {
+package com.example.mysql.domain.follow.service;
+
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@RequiredArgsConstructor
+@Service
+public class FollowReadService {
+
+
+
+
 }

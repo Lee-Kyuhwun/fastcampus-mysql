@@ -44,10 +44,10 @@ public class Member {
    // 엔티티의 데이터들은 객체 안에서만 관리되어야한다. 나중에 변경할때 쉬어진다.
 
 
-    public void changeNickname(String nickname){
-        Objects.requireNonNull(nickname);
-        validNickname(nickname);
-        this.nickname = nickname;
+    public void changeNickname(String to){
+        Objects.requireNonNull(to);
+//        validNickname(to);
+        this.nickname = to;
     } // 이렇게 객체안에 넣으면 단위테스트에 유리해진다. 객체안에서만 관리되기 때문에
 
 

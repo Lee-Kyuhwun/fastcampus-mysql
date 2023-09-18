@@ -1,2 +1,12 @@
-package com.example.mysql.domain.member.dto;public record MemberNicknameHIstoryDto() {
+package com.example.mysql.domain.member.dto;
+
+import java.time.LocalDateTime;
+
+public record MemberNicknameHistoryDto(
+        Long id,
+        String nickname,
+        Long memberId,
+        LocalDateTime createdAt
+
+) {
 }

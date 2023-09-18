@@ -2,19 +2,15 @@ package com.example.mysql.controller;
 
 
 import com.example.mysql.domain.member.dto.MemberDto;
+import com.example.mysql.domain.member.dto.MemberNicknameHistoryDto;
 import com.example.mysql.domain.member.dto.RegisterMemberCommend;
 import com.example.mysql.domain.member.entity.Member;
-import com.example.mysql.domain.member.repository.MemberRepository;
 import com.example.mysql.domain.member.service.MemberReadService;
 import com.example.mysql.domain.member.service.MemberWriteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
-import java.sql.ResultSet;
-import java.util.Optional;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -28,7 +24,7 @@ public class MemberController {
 
     @PostMapping("/members")
     public MemberDto register(@RequestBody RegisterMemberCommend commend){
-       Member member = memberWriteService.register(commend);
+       Member member = memberWriteService.create(commend);
        return memberReadService.toDto(member);
     }
 
@@ -36,5 +32,17 @@ public class MemberController {
     @GetMapping("/members/{id}")
     public MemberDto getMember(@PathVariable Long id) {
         return memberReadService.getMember(id);
+    }
+
+
+    @PutMapping("/members/{id}/nickname")
+    public MemberDto changeNickname(@PathVariable Long id, @RequestBody String nickname){
+        memberWriteService.changeNickName(id, nickname);
+        return memberReadService.getMember(id);
+    }
+
+    @GetMapping("/{memberId}/nickname-histories")
+    public List<MemberNicknameHistoryDto> getNickNameHistories(@PathVariable Long memberId){
+        return memberReadService.getNickNameHistories(memberId);
     }
 }

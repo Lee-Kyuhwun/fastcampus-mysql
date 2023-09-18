@@ -22,6 +22,13 @@ import java.util.Optional;
 public class MemberRepository {
 
     static final private String TABLE = "member";
+    private static final RowMapper<Member> ROW_MAPPER = (ResultSet resultSet, int rowNum) -> Member.builder()
+            .id(resultSet.getLong("id"))
+            .nickname(resultSet.getString("nickname"))
+            .email(resultSet.getString("email"))
+            .birthday(resultSet.getObject("birthday", LocalDate.class))
+            .createdAt(resultSet.getObject("createdAt", LocalDateTime.class))
+            .build();
     public Optional<Member> findById(Long id){
         /*
          * select * from member where id =: id
@@ -50,7 +57,15 @@ public class MemberRepository {
         }
         return update(member);
     }
+    public List<Member> findAllByIdIn(List<Long> ids) {
+        if (ids.isEmpty()) {
+            return List.of();
+        }
 
+        String sql = String.format("SELECT * FROM %s WHERE id in (:ids)", TABLE);
+        var params = new MapSqlParameterSource().addValue("ids", ids);
+        return namedParameterJdbcTemplate.query(sql, params, ROW_MAPPER);
+    }
 
     private Member insert(Member member){
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(namedParameterJdbcTemplate.getJdbcTemplate())
@@ -65,8 +80,9 @@ public class MemberRepository {
 
 
     private Member update(Member member){
-
-        //TODO: implement
+        String sql = String.format("update %s set nickname = :nickname, email = :email, birthday = :birthday where id = :id",TABLE);
+        SqlParameterSource params = new BeanPropertySqlParameterSource(member);
+        namedParameterJdbcTemplate.update(sql, params);
         return member;
     }
 
